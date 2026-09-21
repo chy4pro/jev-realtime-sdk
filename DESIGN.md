@@ -52,9 +52,11 @@ Observer: element rects and the cursor position from the page (the extension's s
 
 Simulated drone (MuJoCo or a browser sim) and a robot arm, to show the loop is the same; both come from the surveyed projects' observation formats.
 
-## What jev-dev-kit already provides
+## What comes from jev-dev-kit, and what does not
 
-Candidate contract, answer validation, cross-checks, fallback policy, trace, providers via `JevClient`. This SDK adds the tick scheduler, the in-flight and dead-man policies, the smoothing hook and the stop contract.
+Used as is: the `JevClient` function type (any provider, or a local model), the `Candidate` contract, `validateChoiceAnswer` and `readNoul`, the trace format, and the two controls (`shufflingClient`, `keywordClient`).
+
+Not used: `runLoop`. It is observe → ask → act with the step waiting on Jev; a real-time loop keeps applying the held verb on the inner tick while the answer is in flight, and may drop a late answer. `runRealtime` is therefore a second runtime built from the kit's parts, not a wrapper around the first. If the two runtimes turn out to share enough (validation, veto, circuit breaker, trace), that common core moves into the kit later.
 
 ## Evaluation
 
