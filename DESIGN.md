@@ -52,11 +52,11 @@ Observer: element rects and the cursor position from the page (the extension's s
 
 Simulated drone (MuJoCo or a browser sim) and a robot arm, to show the loop is the same; both come from the surveyed projects' observation formats.
 
-## What comes from jev-dev-kit, and what does not
+## What comes from jev-dev-kit
 
-Used as is: the `JevClient` function type (any provider, or a local model), the `Candidate` contract, `validateChoiceAnswer` and `readNoul`, the trace format, and the two controls (`shufflingClient`, `keywordClient`).
+Since jev-dev-kit 0.4.0 the kit's unit is one decision, `Decider`: request building (candidates, rules, standing goal_done and stuck checks, notices), answer acceptance (validation, one retry, veto of an unsupported terminal, confirmation of a hesitant one, repetition limit, declared fallback), and the cross-decision memory and trace. `runRealtime` is a second runtime on that unit: it calls `prepare` on the decision tick, sends the request without waiting, keeps the inner tick applying the held verb, and on arrival calls `accept` (dropping an answer older than `timeoutMs`) and `record`. The kit's `runLoop` is not used; the two runtimes differ only in scheduling.
 
-Not used: `runLoop`. It is observe → ask → act with the step waiting on Jev; a real-time loop keeps applying the held verb on the inner tick while the answer is in flight, and may drop a late answer. `runRealtime` is therefore a second runtime built from the kit's parts, not a wrapper around the first. If the two runtimes turn out to share enough (validation, veto, circuit breaker, trace), that common core moves into the kit later.
+Also used as is: the `JevClient` function type (any provider, or a local model), `validateChoiceAnswer` and `readNoul`, and the two controls (`shufflingClient`, `keywordClient`).
 
 ## Evaluation
 
