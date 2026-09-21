@@ -1,0 +1,9 @@
+{
+  "name": "jev-realtime-sdk",
+  "version": "0.0.0",
+  "description": "Continuous actions driven by TypeSafe Jev: a code-owned inner tick, a Jev-owned decision tick, and the contracts between them. Mouse first; drones and robots use the same loop.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "keywords": ["jev", "typesafe", "realtime", "control-loop", "continuous-control", "decision-model", "agent", "browser-automation"]
+}
