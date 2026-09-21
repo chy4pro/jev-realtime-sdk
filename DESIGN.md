@@ -44,6 +44,10 @@ interface RealtimeOptions {
 
 `runRealtime(controller, options)` owns both ticks: it calls `observe` and `apply` at `innerHz`, asks Jev on the decision tick with the current verbs plus the standing `stop` noul, validates the answer with jev-dev-kit, and applies the in-flight and dead-man policies. It returns when `stop` says so, on the circuit breaker, or on a budget. The trace is jev-dev-kit's, plus the timing of every decision relative to the inner tick.
 
+## Defaults that differ from the kit
+
+The kit's repetition limit (same choice three times in six) means "stuck" in a discrete loop; in continuous control the same verb is held across decisions on purpose, so the runtime disables it unless the caller sets one. The no-change deadlock is kept but widened to five decisions, because the facts are bucketed (near/mid/far) and can stay equal for a couple of decisions while the actuator moves; a broken actuator, whose fingerprint never changes, is still caught. Outcomes in the history come from the fingerprint diff, never from a label the runtime writes, so the kit's stuck check sees what actually happened.
+
 ## First actuator: the cursor
 
 Observer: element rects and the cursor position from the page (the extension's snapshot, or CDP). Facts: target bearing (left/right/up/down/on), distance bucket, speed, "would overshoot next tick". Verbs: `toward`, `slow`, `stop`, `back`. Apply: CDP `mouseMoved` at inner-tick rate with a velocity ramp. Stop: cursor inside the target rect for one tick. Use cases: move onto an element without a coordinate, scroll until a heading appears, drag a slider until the value reads right, hold a key until a state is reached.

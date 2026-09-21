@@ -1,9 +1,23 @@
 {
   "name": "jev-realtime-sdk",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Continuous actions driven by TypeSafe Jev: a code-owned inner tick, a Jev-owned decision tick, and the contracts between them. Mouse first; drones and robots use the same loop.",
   "license": "MIT",
-  "private": true,
   "type": "module",
-  "keywords": ["jev", "typesafe", "realtime", "control-loop", "continuous-control", "decision-model", "agent", "browser-automation"]
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist", "README.md", "DESIGN.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test && npm run build",
+    "prepare": "npm run build"
+  },
+  "repository": { "type": "git", "url": "https://github.com/chy4pro/jev-realtime-sdk.git" },
+  "keywords": ["jev", "typesafe", "realtime", "control-loop", "continuous-control", "decision-model", "agent", "browser-automation"],
+  "engines": { "node": ">=20" },
+  "dependencies": { "jev-dev-kit": "github:chy4pro/jev-dev-kit#v0.4.0" },
+  "devDependencies": { "typescript": "^5.9.3", "vitest": "^5.0.1" }
 }
